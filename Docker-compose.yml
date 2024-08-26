@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=gerocrud
+    ports:
+      - 3306:3306
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    depends_on:
+      - mysqldb
+    links:
+    - mysqldb
+    ports:
+      - 4000:4000
+    
